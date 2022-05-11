@@ -54,10 +54,10 @@ final class HomeViewModel {
 
     // MARK: - Functions
 
-    func loadStocks(isPaginating: Bool = false) {
+    func loadStocks() {
         guard !isLoading, (totalNumberOfStocks > stocks.count || stocks.isEmpty) else { return }
 
-        let request = GetStocksRequest(currentCount: stocks.count, isPaginating: isPaginating)
+        let request = GetStocksRequest(currentCount: stocks.count)
 
         guard let data = try? JSONEncoder().encode(request), let paramaters = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else { return }
 
@@ -71,11 +71,7 @@ final class HomeViewModel {
             if let object = object, let data = try? JSONSerialization.data(withJSONObject: object) {
                 guard let response = try? JSONDecoder().decode(StockResponse.self, from: data) else { return }
 
-                if !isPaginating {
-                    self?.stocks = response.stocks
-                } else {
-                    self?.stocks.append(contentsOf: response.stocks)
-                }
+                self?.stocks.append(contentsOf: response.stocks)
 
                 self?.totalNumberOfStocks = response.total
 

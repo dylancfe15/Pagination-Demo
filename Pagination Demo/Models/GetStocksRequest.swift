@@ -9,5 +9,4 @@ import Foundation
 
 struct GetStocksRequest: Encodable {
     let currentCount: Int
-    let isPaginating: Bool
 }

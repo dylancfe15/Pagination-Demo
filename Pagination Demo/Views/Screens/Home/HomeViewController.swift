@@ -69,7 +69,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.loadStocks(isPaginating: true)
+        viewModel.loadStocks()
 
         configure()
     }
@@ -93,7 +93,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.frame.height) < 200 {
-            viewModel.loadStocks(isPaginating: true)
+            viewModel.loadStocks()
         }
     }
 }

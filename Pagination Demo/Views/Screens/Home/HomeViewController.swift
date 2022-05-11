@@ -124,6 +124,6 @@ extension HomeViewController: HomeViewModelDelegate {
     }
 
     func didUpdateLoadingState(isLoading: Bool) {
-        stocksLabel.text = "Stocks (Total:\(viewModel.totalNumberOfStocks)): \(isLoading ? "(Loading...)" : "")"
+        stocksLabel.text = "Total Number of Stocks: \(viewModel.totalNumberOfStocks): \(isLoading ? "(Loading...)" : "")"
     }
 }

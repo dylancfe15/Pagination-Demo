@@ -46,7 +46,7 @@ final class HomeViewController: UIViewController {
 
     private lazy var stocksLabel: TitleLabel = {
         let label = TitleLabel()
-        label.text = "Stocks:"
+        label.text = "Total Number of Stocks: \(viewModel.totalNumberOfStocks)"
         return label
     }()
 
@@ -124,6 +124,6 @@ extension HomeViewController: HomeViewModelDelegate {
     }
 
     func didUpdateLoadingState(isLoading: Bool) {
-        stocksLabel.text = "Total Number of Stocks: \(viewModel.totalNumberOfStocks): \(isLoading ? "(Loading...)" : "")"
+        stocksLabel.text = "Total Number of Stocks: \(viewModel.totalNumberOfStocks) \(isLoading ? "(Loading...)" : "")"
     }
 }

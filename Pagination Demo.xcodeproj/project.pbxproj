@@ -22,6 +22,7 @@
 		D550DF9B282B66E6009655D7 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D550DF9A282B66E6009655D7 /* PrimaryButton.swift */; };
 		D550DF9D282B7271009655D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D550DF9C282B7271009655D7 /* GoogleService-Info.plist */; };
 		D550DF9F282B7A30009655D7 /* SortingOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D550DF9E282B7A30009655D7 /* SortingOption.swift */; };
+		D550DFA1282BEE77009655D7 /* BodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D550DFA0282BEE77009655D7 /* BodyLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		D550DF9A282B66E6009655D7 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		D550DF9C282B7271009655D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D550DF9E282B7A30009655D7 /* SortingOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOption.swift; sourceTree = "<group>"; };
+		D550DFA0282BEE77009655D7 /* BodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyLabel.swift; sourceTree = "<group>"; };
 		ED19A75284C21FB703469D56 /* Pods-Pagination Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pagination Demo.debug.xcconfig"; path = "Target Support Files/Pods-Pagination Demo/Pods-Pagination Demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				D550DF96282B6626009655D7 /* TitleLabel.swift */,
+				D550DFA0282BEE77009655D7 /* BodyLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				D550DF77282B432D009655D7 /* HomeViewController.swift in Sources */,
 				D550DF91282B4763009655D7 /* GetStocksRequest.swift in Sources */,
 				D550DF94282B47C2009655D7 /* HomeViewModel.swift in Sources */,
+				D550DFA1282BEE77009655D7 /* BodyLabel.swift in Sources */,
 				D550DF73282B432D009655D7 /* AppDelegate.swift in Sources */,
 				D550DF9F282B7A30009655D7 /* SortingOption.swift in Sources */,
 				D550DF8C282B4585009655D7 /* StockTableViewCell.swift in Sources */,

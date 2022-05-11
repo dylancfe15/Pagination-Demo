@@ -17,7 +17,8 @@ final class HomeViewModel {
 
     // MARK: - Properties
 
-    private(set) var stocks = [StockResponse]()
+    private(set) var stocks = [StockResponse.Stock]()
+    private(set) var totalNumberOfStocks = 0
     private(set) weak var delegate: HomeViewModelDelegate?
 
     private var isLoading = false {
@@ -54,7 +55,7 @@ final class HomeViewModel {
     // MARK: - Functions
 
     func loadStocks(isPaginating: Bool = false) {
-        guard !isLoading else { return }
+        guard !isLoading, (totalNumberOfStocks > stocks.count || stocks.isEmpty) else { return }
 
         let request = GetStocksRequest(currentCount: stocks.count, isPaginating: isPaginating)
 
@@ -65,16 +66,18 @@ final class HomeViewModel {
         Functions.functions().httpsCallable("getStocks").call(paramaters) { [weak self] result, error in
             self?.isLoading = false
 
-            let object = result?.data as? [Any]
+            let object = result?.data as? [String: Any]
 
             if let object = object, let data = try? JSONSerialization.data(withJSONObject: object) {
-                guard let stocks = try? JSONDecoder().decode([StockResponse].self, from: data) else { return }
+                guard let response = try? JSONDecoder().decode(StockResponse.self, from: data) else { return }
 
                 if !isPaginating {
-                    self?.stocks = stocks
+                    self?.stocks = response.stocks
                 } else {
-                    self?.stocks.append(contentsOf: stocks)
+                    self?.stocks.append(contentsOf: response.stocks)
                 }
+
+                self?.totalNumberOfStocks = response.total
 
                 self?.delegate?.didFinishUpdatingStocks()
             }

@@ -91,7 +91,11 @@ final class HomeViewController: UIViewController {
 // MARK: - HomeViewController+UITableViewDelegate
 
 extension HomeViewController: UITableViewDelegate {
-
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.frame.height) < 200 {
+            viewModel.loadStocks(isPaginating: true)
+        }
+    }
 }
 
 // MARK: - HomeViewController+UITableViewDataSource
@@ -106,7 +110,7 @@ extension HomeViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.configure(with: viewModel.stocks[indexPath.row])
+        cell.configure(with: viewModel.stocks[indexPath.row], index: indexPath.row)
 
         return cell
     }
@@ -120,6 +124,6 @@ extension HomeViewController: HomeViewModelDelegate {
     }
 
     func didUpdateLoadingState(isLoading: Bool) {
-        stocksLabel.text = "Stocks: \(isLoading ? "(Loading...)" : "")"
+        stocksLabel.text = "Stocks (Total:\(viewModel.totalNumberOfStocks)): \(isLoading ? "(Loading...)" : "")"
     }
 }

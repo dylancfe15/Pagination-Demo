@@ -28,10 +28,10 @@ final class HomeViewController: UIViewController {
     private lazy var sortedOptionButtons: [PrimaryButton] = {
         viewModel.sortingOptions.map { option in
             let button = PrimaryButton()
-            button.setTitle(option, for: .normal)
+            button.setTitle(option.rawValue, for: .normal)
             button.addAction(UIAction(handler: { _ in
                 self.viewModel.selectedSortingOption = option
-                self.sortedByLabel.text = "Sorted by: \(option)"
+                self.sortedByLabel.text = "Sorted by: \(option.rawValue)"
             }), for: .touchUpInside)
             return button
         }
@@ -69,7 +69,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.loadStocks()
+        viewModel.loadStocks(isPaginating: true)
 
         configure()
     }
@@ -81,8 +81,8 @@ final class HomeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            containerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            containerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             containerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -115,7 +115,11 @@ extension HomeViewController: UITableViewDataSource {
 // MARK: - HomeViewController+HomeViewModelDelegate
 
 extension HomeViewController: HomeViewModelDelegate {
-    func didFinishLoadingStocks() {
+    func didFinishUpdatingStocks() {
         tableView.reloadData()
+    }
+
+    func didUpdateLoadingState(isLoading: Bool) {
+        stocksLabel.text = "Stocks: \(isLoading ? "(Loading...)" : "")"
     }
 }

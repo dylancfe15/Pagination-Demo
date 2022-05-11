@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import FirebaseFunctions
 
 protocol HomeViewModelDelegate: AnyObject {
-    func didFinishLoadingStocks()
+    func didFinishUpdatingStocks()
+    func didUpdateLoadingState(isLoading: Bool)
 }
 
 final class HomeViewModel {
@@ -18,13 +20,28 @@ final class HomeViewModel {
     private(set) var stocks = [StockResponse]()
     private(set) weak var delegate: HomeViewModelDelegate?
 
-    private var isLoading = false
-
-    let sortingOptions = ["change", "name", "symbol"]
-
-    var selectedSortingOption: String? {
+    private var isLoading = false {
         didSet {
-            loadStocks(sortedBy: selectedSortingOption)
+            delegate?.didUpdateLoadingState(isLoading: isLoading)
+        }
+    }
+
+    let sortingOptions: [SortingOption] = [.symbol, .change, .name]
+
+    var selectedSortingOption: SortingOption? {
+        didSet {
+            switch selectedSortingOption {
+            case .change:
+                stocks.sort { $0.change < $1.change }
+            case .name:
+                stocks.sort { $0.name < $1.name }
+            case .symbol:
+                stocks.sort { $0.symbol < $1.symbol }
+            default:
+                break
+            }
+
+            delegate?.didFinishUpdatingStocks()
         }
     }
 
@@ -36,38 +53,31 @@ final class HomeViewModel {
 
     // MARK: - Functions
 
-    func loadStocks(sortedBy: String? = nil, isPaginating: Bool = false) {
-        guard let url = URL(string: "https://us-central1-pagination-demo-3e397.cloudfunctions.net/getStocks"), !isLoading else { return }
+    func loadStocks(isPaginating: Bool = false) {
+        guard !isLoading else { return }
 
-        let request = GetStocksRequest(currentCount: stocks.count, sortedBy: sortedBy)
+        let request = GetStocksRequest(currentCount: stocks.count, isPaginating: isPaginating)
 
-        var urlRequest = URLRequest(url: url)
-
-        do {
-            urlRequest.httpBody = try JSONEncoder().encode(request)
-        } catch {
-            print(error)
-        }
+        guard let data = try? JSONEncoder().encode(request), let paramaters = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else { return }
 
         isLoading = true
 
-        URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
+        Functions.functions().httpsCallable("getStocks").call(paramaters) { [weak self] result, error in
             self?.isLoading = false
 
-            guard let data = data else { return }
+            let object = result?.data as? [Any]
 
-            do {
-                let stocks = try JSONDecoder().decode([StockResponse].self, from: data)
+            if let object = object, let data = try? JSONSerialization.data(withJSONObject: object) {
+                guard let stocks = try? JSONDecoder().decode([StockResponse].self, from: data) else { return }
 
                 if !isPaginating {
                     self?.stocks = stocks
                 } else {
                     self?.stocks.append(contentsOf: stocks)
                 }
-                self?.delegate?.didFinishLoadingStocks()
-            } catch {
-                print(error)
+
+                self?.delegate?.didFinishUpdatingStocks()
             }
-        }.resume()
+        }
     }
 }

@@ -9,5 +9,5 @@ import Foundation
 
 struct GetStocksRequest: Encodable {
     let currentCount: Int
-    let sortedBy: String?
+    let isPaginating: Bool
 }

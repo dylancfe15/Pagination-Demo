@@ -10,6 +10,7 @@ import UIKit
 final class StockTableViewCell: UITableViewCell {
 
     // MARK: - Views
+
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [indexLabel, infoStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false

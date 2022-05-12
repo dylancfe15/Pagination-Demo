@@ -63,7 +63,6 @@ final class HomeViewController: UIViewController {
 
     private lazy var viewModel = HomeViewModel(delegate: self)
 
-
     // MARK: - Lifecycle
 
     override func viewDidLoad() {

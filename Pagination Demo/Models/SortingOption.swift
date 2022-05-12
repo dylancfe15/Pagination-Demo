@@ -10,5 +10,5 @@ import Foundation
 enum SortingOption: String {
     case change
     case name
-    case symbol
+    case country
 }

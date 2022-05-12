@@ -27,7 +27,7 @@ final class HomeViewModel {
         }
     }
 
-    let sortingOptions: [SortingOption] = [.symbol, .change, .name]
+    let sortingOptions: [SortingOption] = [.country, .change, .name]
 
     var selectedSortingOption: SortingOption? {
         didSet {
@@ -36,8 +36,8 @@ final class HomeViewModel {
                 stocks.sort { $0.change < $1.change }
             case .name:
                 stocks.sort { $0.name < $1.name }
-            case .symbol:
-                stocks.sort { $0.symbol < $1.symbol }
+            case .country:
+                stocks.sort { $0.country < $1.country }
             default:
                 break
             }

@@ -10,7 +10,7 @@ import Foundation
 struct StockResponse: Decodable {
     struct Stock: Decodable {
         let change: String
-        let country: String?
+        let country: String
         let industry: String?
         let ipoYear: String?
         let lastSale: String?
